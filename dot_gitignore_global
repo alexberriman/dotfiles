@@ -1,0 +1,54 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+*~
+.vim/
+.netrwhist
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn-integrity
+.pnp.*
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+.envrc
+
+# Build outputs
+dist/
+build/
+*.log
+.cache/
+.parcel-cache/
+.next/
+out/
+
+# Testing
+coverage/
+.nyc_output/
+*.lcov
+
+# Package managers
+package-lock.json.bak
+yarn.lock.bak
+
+# OS files
+Thumbs.db
+Desktop.ini

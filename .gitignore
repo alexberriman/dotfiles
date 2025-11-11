@@ -1,0 +1,48 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+*~
+.vim/
+.netrwhist
+
+# Chezmoi
+# Note: .chezmoi.toml.tmpl should be committed (it's the template)
+# Only ignore actual rendered config with secrets
+.chezmoi.toml.yaml
+
+# Backup files
+*.bak
+*.backup
+*~
+.*.swp
+
+# Local testing
+test/
+scratch/
+tmp/
+
+# Environment files (if you create any for testing)
+.env
+.env.local
+
+# Node (if you test scripts locally)
+node_modules/
+
+# Logs
+*.log
+
+# Any private/local overrides (if you create them)
+private_*
+local_*
+*.local

@@ -1,0 +1,51 @@
+[user]
+  name = {{ .git_name_default }}
+  email = {{ .git_email_default }}
+
+[core]
+  editor = nvim
+  autocrlf = input
+  pager = delta
+  excludesfile = ~/.gitignore_global
+
+[color]
+  ui = auto
+
+[init]
+  defaultBranch = main
+
+[pull]
+  rebase = false
+
+[push]
+  default = simple
+
+[commit]
+  gpgsign = false
+
+[merge]
+  conflictstyle = zdiff3
+
+[interactive]
+  diffFilter = delta --color-only
+
+[delta]
+  navigate = true
+  side-by-side = true
+  line-numbers = true
+  syntax-theme = Dracula
+
+[alias]
+  st = status -sb
+  co = checkout
+  br = branch
+  ci = commit
+  unstage = reset HEAD --
+  last = log -1 HEAD
+  visual = log --graph --oneline --all --decorate
+  amend = commit --amend --no-edit
+  undo = reset --soft HEAD~1
+
+# --- Conditional identity for banja repos
+[includeIf "gitdir:{{ .chezmoi.homeDir }}/Documents/banja/repos/"]
+  path = ~/.gitconfig_banja

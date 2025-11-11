@@ -1,0 +1,403 @@
+#!/usr/bin/env bash
+# dx - Developer Experience Helper
+# Quick reference for dotfiles tools and commands
+
+set -euo pipefail
+
+# Colors
+BOLD='\033[1m'
+DIM='\033[2m'
+RESET='\033[0m'
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+MAGENTA='\033[0;35m'
+CYAN='\033[0;36m'
+
+# Helper functions
+header() {
+  echo -e "\n${BOLD}${BLUE}━━━ $1 ━━━${RESET}\n"
+}
+
+cmd() {
+  echo -e "${GREEN}  $1${RESET}"
+}
+
+desc() {
+  echo -e "${DIM}    → $1${RESET}"
+}
+
+section() {
+  echo -e "\n${BOLD}${YELLOW}$1${RESET}"
+}
+
+show_default() {
+  clear
+  echo -e "${BOLD}${MAGENTA}"
+  cat << "EOF"
+     _
+  __| |_  __
+ / _` \ \/ /
+| (_| |>  <
+ \__,_/_/\_\  Developer Experience Helper
+
+EOF
+  echo -e "${RESET}"
+
+  header "🔥 Top Commands"
+
+  section "Shell Navigation"
+  cmd "z <dir>"
+  desc "Jump to frequently used directory (zoxide)"
+  cmd "ll"
+  desc "Enhanced ls with icons and git status"
+  cmd "lt"
+  desc "Tree view of current directory"
+
+  section "Git Workflow"
+  cmd "lg"
+  desc "Launch lazygit TUI (interactive git)"
+  cmd "git st"
+  desc "Short git status"
+  cmd "git visual"
+  desc "Pretty commit graph"
+
+  section "Kubernetes"
+  cmd "k9s"
+  desc "Launch Kubernetes TUI"
+  cmd "k get pods"
+  desc "Get pods (k = kubectl alias)"
+  cmd "logs <pod-name>"
+  desc "Tail logs from pods (stern)"
+
+  section "Development"
+  cmd "v <file>"
+  desc "Open in neovim (with LSP, completion, formatting)"
+  cmd "cat <file>"
+  desc "View file with syntax highlighting (bat)"
+  cmd "btop"
+  desc "Beautiful system monitor"
+
+  echo -e "\n${DIM}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${RESET}"
+  echo -e "${CYAN}💡 Tip: Use ${BOLD}dx <category>${RESET}${CYAN} for more commands${RESET}"
+  echo -e "${DIM}   Categories: git, k8s, shell, nvim, tools${RESET}\n"
+}
+
+show_git() {
+  header "Git Workflow"
+
+  section "Git TUI"
+  cmd "lg"
+  desc "Launch lazygit (stage, commit, push, branch, merge)"
+
+  section "Git Aliases"
+  cmd "git st"
+  desc "Short status (git status -sb)"
+  cmd "git co <branch>"
+  desc "Checkout branch"
+  cmd "git unstage <file>"
+  desc "Unstage files"
+  cmd "git undo"
+  desc "Undo last commit (keeps changes)"
+  cmd "git amend"
+  desc "Amend last commit without editing message"
+  cmd "git visual"
+  desc "Pretty graph of all commits"
+  cmd "git last"
+  desc "Show last commit"
+
+  section "GitHub CLI"
+  cmd "gh pr create"
+  desc "Create pull request"
+  cmd "gh pr list"
+  desc "List pull requests"
+  cmd "gh pr view <number>"
+  desc "View PR details"
+  cmd "gh pr checkout <number>"
+  desc "Checkout PR locally"
+  cmd "gh repo view --web"
+  desc "Open repo in browser"
+
+  section "Diff Viewer"
+  cmd "git diff"
+  desc "Beautiful side-by-side diff (delta)"
+  cmd "git log -p"
+  desc "Show commits with diffs"
+
+  echo -e "\n${CYAN}💡 Global .gitignore at ~/.gitignore_global${RESET}"
+  echo -e "${CYAN}💡 Git identity auto-switches for banja repos${RESET}\n"
+}
+
+show_k8s() {
+  header "Kubernetes Tools"
+
+  section "Kubernetes TUI"
+  cmd "k9s"
+  desc "Interactive cluster management (best way to explore)"
+
+  section "kubectl Shortcuts"
+  cmd "k get pods"
+  desc "List pods (k = kubectl)"
+  cmd "k get svc"
+  desc "List services"
+  cmd "k describe pod <name>"
+  desc "Describe pod"
+  cmd "k delete pod <name>"
+  desc "Delete pod"
+
+  section "Context & Namespace"
+  cmd "kx"
+  desc "List/switch contexts (kubectx)"
+  cmd "kx <context>"
+  desc "Switch to context"
+  cmd "kn"
+  desc "List/switch namespaces (kubens)"
+  cmd "kn <namespace>"
+  desc "Switch to namespace"
+
+  section "Logs"
+  cmd "logs <pod-name>"
+  desc "Tail logs (stern - works with partial names)"
+  cmd "logs <pod> --since 1h"
+  desc "Logs from last hour"
+  cmd "logs <pod> -c <container>"
+  desc "Logs from specific container"
+
+  section "Cleanup"
+  cmd "kclean"
+  desc "Delete Evicted/Completed/Error pods across all namespaces"
+
+  echo -e "\n${CYAN}💡 Multi-config: Drop .yaml files in ~/.kube/configs/${RESET}"
+  echo -e "${CYAN}💡 k9s shortcuts: <0>=pods, <1>=deployments, <2>=services${RESET}\n"
+}
+
+show_shell() {
+  header "Shell Enhancements"
+
+  section "Smart Navigation"
+  cmd "z <partial-name>"
+  desc "Jump to frequently used directory (learns over time)"
+  cmd "z -"
+  desc "Go to previous directory"
+  cmd "zi"
+  desc "Interactive directory picker (fzf)"
+
+  section "Enhanced Listing"
+  cmd "ls"
+  desc "List with icons and git status (eza)"
+  cmd "ll"
+  desc "Long format with all details"
+  cmd "lt"
+  desc "Tree view (2 levels deep)"
+  cmd "la"
+  desc "List all including hidden, with git status"
+
+  section "Better Viewing"
+  cmd "cat <file>"
+  desc "Syntax highlighted file viewer (bat)"
+  cmd "less <file>"
+  desc "Paginated syntax highlighting"
+
+  section "Search & Find"
+  cmd "Ctrl+R"
+  desc "Fuzzy search command history (fzf)"
+  cmd "Ctrl+T"
+  desc "Fuzzy find files in current dir"
+  cmd "rg <pattern>"
+  desc "Fast text search (ripgrep)"
+  cmd "fd <pattern>"
+  desc "Fast file find"
+
+  section "Shell Features"
+  cmd "direnv allow"
+  desc "Enable .envrc in current directory"
+  cmd "Type any command..."
+  desc "Auto-suggestions from history (gray text, → to accept)"
+
+  echo -e "\n${CYAN}💡 zoxide learns your habits - just use 'z' for a few days${RESET}"
+  echo -e "${CYAN}💡 Arrow up + start typing = search history${RESET}\n"
+}
+
+show_nvim() {
+  header "Neovim IDE Features"
+
+  section "Launch"
+  cmd "v <file>"
+  desc "Open file in neovim"
+  cmd "nvim"
+  desc "Open neovim (will auto-install plugins on first run)"
+
+  section "File Navigation"
+  cmd "<leader>ff"
+  desc "Find files (telescope fuzzy finder)"
+  cmd "<leader>fg"
+  desc "Live grep (search in files)"
+  cmd "<leader>fb"
+  desc "Buffer list"
+  cmd "<leader>t"
+  desc "Toggle file tree"
+
+  section "Code Navigation"
+  cmd "gd"
+  desc "Go to definition (LSP)"
+  cmd "gr"
+  desc "Find references (LSP)"
+  cmd "K"
+  desc "Show hover documentation (LSP)"
+  cmd "Ctrl+]"
+  desc "Jump to tag"
+
+  section "Completion & Editing"
+  cmd "Ctrl+Space"
+  desc "Trigger completion menu"
+  cmd "Enter"
+  desc "Accept completion"
+  cmd ":w"
+  desc "Save (auto-formats with prettier/stylua)"
+  cmd "<leader>w"
+  desc "Quick save"
+
+  section "Diagnostics & Errors"
+  cmd "<leader>xx"
+  desc "Toggle diagnostics list (Trouble)"
+  cmd "<leader>xw"
+  desc "Buffer diagnostics only"
+  cmd "]d"
+  desc "Next diagnostic"
+  cmd "[d"
+  desc "Previous diagnostic"
+
+  section "Git Integration"
+  cmd ":Gitsigns blame_line"
+  desc "Show git blame for current line"
+  cmd "]c"
+  desc "Next git hunk"
+  cmd "[c"
+  desc "Previous git hunk"
+
+  section "LSP Management"
+  cmd ":Mason"
+  desc "Open LSP server manager"
+  cmd ":LspInfo"
+  desc "Show LSP server status"
+
+  echo -e "\n${CYAN}💡 Format-on-save is enabled for JS/TS/Lua/JSON/YAML${RESET}"
+  echo -e "${CYAN}💡 <leader> is space by default${RESET}"
+  echo -e "${CYAN}💡 Completion auto-triggers as you type${RESET}\n"
+}
+
+show_tools() {
+  header "Additional Tools"
+
+  section "HTTP & APIs"
+  cmd "http httpbin.org/get"
+  desc "Make HTTP GET request (httpie)"
+  cmd "http POST api.com/endpoint key=value"
+  desc "POST with JSON data"
+
+  section "JSON/YAML Processing"
+  cmd "cat file.json | jq '.key'"
+  desc "Parse and extract from JSON"
+  cmd "cat file.json | jq -r '.[] | .name'"
+  desc "Extract array values"
+  cmd "cat file.yaml | yq '.key'"
+  desc "Parse and extract from YAML"
+
+  section "System Monitoring"
+  cmd "btop"
+  desc "Beautiful interactive process viewer"
+  cmd "btop --utf-force"
+  desc "Force UTF-8 (if icons look broken)"
+
+  section "Package Management"
+  cmd "brew bundle --file=~/.local/share/chezmoi/Brewfile"
+  desc "Install/update all packages"
+  cmd "brew bundle cleanup --force"
+  desc "Remove packages not in Brewfile"
+  cmd "brew update && brew upgrade"
+  desc "Update Homebrew and packages"
+
+  section "Dotfiles Management"
+  cmd "chezmoi apply"
+  desc "Apply dotfiles to home directory"
+  cmd "chezmoi diff"
+  desc "Preview changes before applying"
+  cmd "chezmoi edit ~/.zshrc"
+  desc "Edit dotfile in source directory"
+  cmd "chezmoi add ~/.config/newfile"
+  desc "Add new file to dotfiles"
+  cmd "chezmoi update"
+  desc "Pull from git and apply changes"
+
+  section "First-Time Setup"
+  cmd "cd /path/to/dotfiles && chezmoi init --apply \"\$(pwd)\""
+  desc "Initialize chezmoi from local dotfiles directory"
+  cmd "chezmoi init --apply https://github.com/user/dotfiles.git"
+  desc "Initialize chezmoi from GitHub"
+
+  section "tmux"
+  cmd "Ctrl+h/j/k/l"
+  desc "Navigate panes (no prefix needed)"
+  cmd "Ctrl+a %"
+  desc "Split vertically"
+  cmd "Ctrl+a \""
+  desc "Split horizontally"
+
+  echo -e "\n${CYAN}💡 All configs managed by chezmoi${RESET}"
+  echo -e "${CYAN}💡 Run 'chezmoi update' to pull latest from git${RESET}\n"
+}
+
+show_all() {
+  show_default
+  echo ""
+  show_git
+  echo ""
+  show_k8s
+  echo ""
+  show_shell
+  echo ""
+  show_nvim
+  echo ""
+  show_tools
+}
+
+# Main
+case "${1:-}" in
+  git)
+    show_git
+    ;;
+  k8s|kubernetes)
+    show_k8s
+    ;;
+  shell|zsh)
+    show_shell
+    ;;
+  nvim|vim|editor)
+    show_nvim
+    ;;
+  tools|misc)
+    show_tools
+    ;;
+  all)
+    show_all | less -R
+    ;;
+  help|--help|-h)
+    echo -e "${BOLD}dx - Developer Experience Helper${RESET}"
+    echo ""
+    echo "Usage: dx [category]"
+    echo ""
+    echo "Categories:"
+    echo "  (none)   Show top commands (default)"
+    echo "  git      Git workflow and GitHub CLI"
+    echo "  k8s      Kubernetes tools and shortcuts"
+    echo "  shell    Shell enhancements and navigation"
+    echo "  nvim     Neovim IDE features and keybindings"
+    echo "  tools    Additional utilities and dotfiles management"
+    echo "  all      Show everything (piped to less)"
+    echo ""
+    ;;
+  *)
+    show_default
+    ;;
+esac
