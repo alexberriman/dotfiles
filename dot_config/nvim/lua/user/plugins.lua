@@ -1,4 +1,29 @@
 return {
+  -- Catppuccin Theme
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000, -- Load before other plugins
+    config = function()
+      require("catppuccin").setup({
+        flavour = "mocha", -- latte, frappe, macchiato, mocha
+        transparent_background = false,
+        show_end_of_buffer = false,
+        term_colors = true,
+        integrations = {
+          cmp = true,
+          gitsigns = true,
+          nvim_tree = true,
+          treesitter = true,
+          telescope = true,
+          trouble = true,
+          mason = true,
+        },
+      })
+      vim.cmd.colorscheme("catppuccin")
+    end
+  },
+
   { "nvim-lua/plenary.nvim", lazy = true },
 
   { "nvim-tree/nvim-tree.lua", cmd = { "NvimTreeToggle", "NvimTreeFindFile" },
@@ -142,6 +167,12 @@ return {
   },
 
   { "nvim-lualine/lualine.nvim", event = "VeryLazy",
-    config = function() require("lualine").setup({}) end
+    config = function()
+      require("lualine").setup({
+        options = {
+          theme = "catppuccin"
+        }
+      })
+    end
   },
 }

@@ -120,22 +120,25 @@ chezmoi update
 
 ## What's Included
 
-### Shell Environment
-- **zsh** with Powerlevel10k theme
+### Shell Environment & Theme
+- **zsh** with **Starship** prompt (modern, fast, Rust-based)
+- **Catppuccin Mocha** theme across all tools (terminal, editor, tmux)
 - **Shell enhancements**:
   - `zsh-autosuggestions` - Fish-like command suggestions from history
   - `zsh-syntax-highlighting` - Real-time command validation
   - `zoxide` - Smart cd that learns your frequent directories (use `z` instead of `cd`)
   - `eza` - Modern ls replacement with git integration and icons
-  - `bat` - Better cat with syntax highlighting
-- **fzf** - Fuzzy finder with keybindings
+  - `bat` - Better cat with syntax highlighting (themed)
+- **fzf** - Fuzzy finder with Catppuccin colors
 
 ### Development Tools
 - **Node.js**: nvm with automatic version switching via `.nvmrc`
 - **JavaScript Runtime**: bun for fast JavaScript execution
 - **Environment Management**: direnv for per-directory environment variables
+- **Containers**: OrbStack - fast, lightweight Docker Desktop alternative
 
 ### Editor (Neovim)
+- **Theme**: Catppuccin Mocha with consistent colors across all integrations
 - **Plugin Manager**: lazy.nvim
 - **LSP**: Full LSP support with mason.nvim for easy server installation
 - **Completion**: nvim-cmp with LSP, buffer, path, and snippet sources
@@ -146,8 +149,8 @@ chezmoi update
 - **Diagnostics**: trouble.nvim for better error lists
 
 ### Terminal & Multiplexer
-- **tmux** with vi mode and vim-style pane navigation (Ctrl+hjkl)
-- **iTerm2** as terminal emulator
+- **tmux** with Catppuccin theme, vi mode, and vim-style pane navigation (Ctrl+hjkl)
+- **iTerm2** with Catppuccin Mocha color scheme (auto-configured via Dynamic Profiles)
 
 ### Git Workflow
 - **Conditional identity switching** (default vs. banja repos)
@@ -173,25 +176,59 @@ chezmoi update
 ### macOS Integration
 - **Homebrew** - Package management
 - **Raycast** - Productivity and window management
+- **OrbStack** - Fast, lightweight Docker and Kubernetes management
 - **Fast key repeat** and other macOS optimizations
 
 ## Post-Installation Setup
 
-After applying dotfiles for the first time, complete these manual steps:
+After applying dotfiles for the first time, complete these steps:
 
-### GitHub CLI
+### 1. Reload Your Shell
+```bash
+exec zsh
+```
+
+You should now see the Starship prompt with Catppuccin colors!
+
+### 2. Restart iTerm2 (for theme to apply)
+The Catppuccin Mocha color scheme is **automatically configured** via iTerm2 Dynamic Profiles.
+
+**To activate it:**
+1. Quit and restart iTerm2 completely (`Cmd + Q`, then reopen)
+2. The profile loads automatically - no manual import needed!
+
+**If colors don't update:**
+- Go to **Preferences** → **Profiles** → Select "Catppuccin Mocha" profile
+- Or: Import manually from `~/.config/iterm2/catppuccin-mocha.itermcolors`
+
+### 3. Restart tmux (for Catppuccin theme)
+The Catppuccin tmux theme is **automatically installed** when you run `chezmoi apply`.
+
+```bash
+# Kill any existing tmux sessions
+tmux kill-server
+
+# Start a new session
+tmux
+```
+
+The Catppuccin Mocha theme should now be active on the status bar!
+
+### 4. GitHub CLI (optional)
 ```bash
 gh auth login
 ```
 
-### Neovim LSP Servers
+### 5. Neovim LSP Servers (automatic)
 On first launch, mason.nvim will automatically install LSP servers. You can also manually manage them:
 ```bash
 # Open nvim and run:
 :Mason
 ```
 
-### Kubernetes Configs
+The Catppuccin Mocha theme loads automatically in Neovim!
+
+### 6. Kubernetes Configs (optional)
 Place additional kubeconfig files in `~/.kube/configs/` to automatically merge them:
 ```bash
 mkdir -p ~/.kube/configs

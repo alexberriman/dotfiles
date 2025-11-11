@@ -1,0 +1,25 @@
+#!/bin/bash
+# Install tmux plugin manager (TPM) and auto-install plugins
+# Hash: {{ include "dot_tmux.conf" | sha256sum }}
+
+TPM_DIR="$HOME/.tmux/plugins/tpm"
+
+# Install TPM if not present
+if [ ! -d "$TPM_DIR" ]; then
+  echo "Installing TPM (tmux plugin manager)..."
+  git clone https://github.com/tmux-plugins/tpm "$TPM_DIR"
+  echo "✓ TPM installed to $TPM_DIR"
+fi
+
+# Auto-install/update tmux plugins
+if [ -f "$TPM_DIR/bin/install_plugins" ]; then
+  echo "Installing/updating tmux plugins..."
+  "$TPM_DIR/bin/install_plugins"
+  echo "✓ tmux plugins installed"
+  echo ""
+  echo "Restart tmux to see the Catppuccin theme:"
+  echo "  tmux kill-server && tmux"
+else
+  echo "✓ TPM already installed"
+  echo "Run 'Prefix + I' in tmux to install plugins"
+fi

@@ -1,5 +1,3 @@
-tap "homebrew/bundle"
-tap "homebrew/cask"
 tap "oven-sh/bun"
 
 # Core tools
@@ -8,7 +6,7 @@ brew "neovim"
 brew "fzf"
 brew "ripgrep"
 brew "fd"
-brew "powerlevel10k"
+brew "starship"
 brew "tmux"
 brew "mas"
 brew "direnv"
@@ -39,3 +37,4 @@ brew "httpie"
 
 cask "iterm2"
 cask "raycast"
+cask "orbstack"

@@ -18,14 +18,17 @@ This is a **chezmoi dotfiles repository** for managing personal development envi
 - **run_onchange_**: Scripts prefixed with `run_onchange_` execute automatically when their content changes
 - `run_onchange_brew-bundle.sh.tmpl`: Installs/updates Homebrew packages from Brewfile
 - `run_onchange_install-nvm.sh.tmpl`: Installs nvm (Node Version Manager) to `~/.nvm`
+- `run_onchange_install-tpm.sh.tmpl`: Installs TPM (tmux plugin manager) to `~/.tmux/plugins/tpm`
 - `run_onchange_setup-kube-dirs.sh.tmpl`: Creates `~/.kube/configs/` directory for multi-config Kubernetes setup
 - `run_onchange_macos-defaults.sh`: Configures macOS system preferences (keyboard, screenshots)
 
 ### Configuration Structure
-- **Shell**: `.zshrc` with Powerlevel10k theme, modern CLI tools (eza, bat, zoxide), zsh plugins (autosuggestions, syntax-highlighting), fzf keybindings, and custom aliases
+- **Shell**: `.zshrc` with Starship prompt, modern CLI tools (eza, bat, zoxide), zsh plugins (autosuggestions, syntax-highlighting), fzf keybindings with Catppuccin colors, and custom aliases
+- **Theme**: Catppuccin Mocha color scheme across all tools (terminal, neovim, tmux, fzf, bat)
 - **Node.js**: nvm with automatic version switching via `.nvmrc` files
 - **JavaScript Runtime**: bun with completions and PATH configuration
 - **Environment Management**: direnv for per-directory environment variables
+- **Containers**: OrbStack for Docker and Kubernetes management (lightweight Docker Desktop alternative)
 - **Kubernetes**: kubectl, kubectx, k9s (TUI), and stern (log tailing) with multi-config KUBECONFIG setup
 - **Git**: Conditional git identity, delta for diffs, lazygit TUI, global .gitignore, and useful aliases
 - **Editor**: Neovim with LSP (mason.nvim), completion (nvim-cmp), formatting (conform.nvim), git integration (gitsigns.nvim), and diagnostics (trouble.nvim)
@@ -77,6 +80,40 @@ chezmoi source-path
 ```
 
 ## Configuration Details
+
+### Theme & Color Scheme (Catppuccin Mocha)
+A cohesive **Catppuccin Mocha** theme is applied across the entire development environment for a consistent, modern aesthetic:
+
+**Starship Prompt:**
+- **What**: Modern, fast (Rust-based) shell prompt replacing Powerlevel10k
+- **Features**: Clean, minimal design showing directory, git status, command duration, and time
+- **Config**: `~/.config/starship.toml`
+- **Colors**: Integrated with Catppuccin Mocha palette
+
+**iTerm2 Terminal:**
+- **Color scheme**: Catppuccin Mocha (warm dark background with soft pastel accents)
+- **Location**: `~/.config/iterm2/catppuccin-mocha.itermcolors`
+- **Import**: Preferences → Profiles → Colors → Color Presets → Import
+
+**Neovim Editor:**
+- **Plugin**: `catppuccin/nvim` with Mocha flavour
+- **Integrations**: LSP, completion, git signs, file tree, telescope, trouble
+- **Statusline**: Lualine with Catppuccin theme
+
+**tmux Terminal Multiplexer:**
+- **Plugin**: `catppuccin/tmux` via TPM (tmux plugin manager)
+- **Auto-install**: TPM installed via `run_onchange_install-tpm.sh.tmpl`
+- **Activation**: Press `Prefix + I` (Ctrl+b then Shift+I) to install plugins
+
+**CLI Tools:**
+- **fzf**: Catppuccin Mocha colors for fuzzy finder UI
+- **bat**: TwoDark theme (closest to Catppuccin for syntax highlighting)
+
+**Post-Installation Steps:**
+1. Run `chezmoi apply` to install Starship and apply configs
+2. Import iTerm2 color scheme manually (Preferences → Colors → Import)
+3. Open tmux and press `Prefix + I` to install Catppuccin theme
+4. Open Neovim - Catppuccin loads automatically
 
 ### Git Identity Switching
 The gitconfig uses conditional includes to switch identity based on directory:
@@ -147,11 +184,12 @@ Automatic Node.js version switching enabled:
 **Core Development:**
 - **Editor**: neovim with LSP, completion, and formatting
 - **Search**: ripgrep, fd, fzf
-- **Shell**: powerlevel10k (zsh theme)
-- **Terminal**: tmux, iTerm2
+- **Shell**: starship (modern prompt), zsh
+- **Terminal**: tmux with Catppuccin theme, iTerm2 with Catppuccin Mocha colors
 - **Productivity**: raycast (with window management)
 - **JavaScript**: bun (via oven-sh/bun tap)
 - **Environment**: direnv
+- **Containers**: OrbStack (fast, lightweight Docker Desktop alternative)
 - **Version management**: asdf (optional, auto-loaded if present)
 
 **Shell Enhancements (Tier 1):**

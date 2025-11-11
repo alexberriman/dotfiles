@@ -1,0 +1,16 @@
+# bat configuration
+# See 'bat --list-themes' for available themes
+
+# Use a dark theme that complements Catppuccin
+# Catppuccin theme is not built into bat, so we use a similar dark theme
+--theme="TwoDark"
+
+# Show line numbers
+--style="numbers,changes,header"
+
+# Use italic text (requires a font with italic support)
+--italic-text=always
+
+# Map .conf and .ini to INI syntax
+--map-syntax "*.conf:INI"
+--map-syntax ".ignore:Git Ignore"

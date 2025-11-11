@@ -1,0 +1,120 @@
+# Starship Configuration
+# https://starship.rs/config/
+
+# Global settings
+format = """
+[](#cba6f7)\
+$os\
+[](bg:#89b4fa fg:#cba6f7)\
+$directory\
+[](fg:#89b4fa bg:#94e2d5)\
+$git_branch\
+$git_status\
+[](fg:#94e2d5 bg:#1e1e2e)\
+$fill\
+[](fg:#1e1e2e bg:#313244)\
+$time\
+[ ](fg:#313244)\
+$line_break\
+$character"""
+
+# Timeout for starship to execute (milliseconds)
+command_timeout = 1000
+
+# Add a newline before each prompt
+add_newline = true
+
+# OS icon (matching P10k's os_icon)
+[os]
+disabled = false
+style = "bg:#cba6f7 fg:#1e1e2e"
+format = "[ $symbol ]($style)"
+
+[os.symbols]
+Macos = ""
+Linux = ""
+Windows = ""
+
+# Directory configuration
+[directory]
+style = "fg:#1e1e2e bg:#89b4fa"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncate_to_repo = true
+truncation_symbol = "…/"
+
+# Git branch
+[git_branch]
+symbol = ""
+style = "fg:#1e1e2e bg:#94e2d5"
+format = '[ $symbol $branch ]($style)'
+
+# Git status
+[git_status]
+style = "fg:#1e1e2e bg:#94e2d5"
+format = '[$all_status$ahead_behind ]($style)'
+conflicted = "🏳"
+ahead = "⇡${count}"
+behind = "⇣${count}"
+diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+up_to_date = ""
+untracked = "?${count}"
+stashed = "$"
+modified = "!${count}"
+staged = "+${count}"
+renamed = "»${count}"
+deleted = "✘${count}"
+
+# Fill space between left and right
+[fill]
+symbol = " "
+
+# Time (matching P10k's time format)
+[time]
+disabled = false
+time_format = "%H:%M"
+style = "fg:#cdd6f4 bg:#313244"
+format = '[ $time ]($style)'
+
+# Command duration (show if > 3s, matching P10k threshold)
+[cmd_duration]
+min_time = 3000
+style = "fg:#f9e2af bg:#313244"
+format = '[ took $duration ]($style)'
+
+# Character prompt
+[character]
+success_symbol = "[❯](bold #a6e3a1)"
+error_symbol = "[❯](bold #f38ba8)"
+vimcmd_symbol = "[❮](bold #a6e3a1)"
+
+# Background jobs indicator
+[jobs]
+symbol = ""
+style = "fg:#cba6f7"
+number_threshold = 1
+format = "[$symbol$number]($style) "
+
+# Node.js version (useful with nvm)
+[nodejs]
+symbol = ""
+style = "fg:#a6e3a1"
+format = '[$symbol ($version )]($style)'
+disabled = false
+
+# Kubernetes context (you use kubectl)
+[kubernetes]
+disabled = false
+format = '[$symbol$context( \($namespace\))]($style) '
+symbol = "☸ "
+style = "fg:#89b4fa"
+
+# Disable modules you don't need
+[aws]
+disabled = true
+
+[gcloud]
+disabled = true
+
+[docker_context]
+disabled = true
