@@ -164,7 +164,7 @@ Automatic Node.js version switching enabled:
 - `kx`: kubectx (switch context)
 - `kn`: kubens (switch namespace)
 - `logs`: stern (multi-pod log tailing)
-- `kclean`: Cleans up Kubernetes pods in Evicted, Completed, Error, CrashLoopBackOff, or ContainerStatusUnknown states
+- `kclean`: Cleans up Kubernetes pods in failed states (Evicted, Completed, Error, CrashLoopBackOff, ContainerStatusUnknown, Init:Error, Init:CrashLoopBackOff, ImagePullBackOff, ErrImagePull, CreateContainerError, InvalidImageName)
 
 **Developer Experience Helper:**
 - `dx`: Interactive cheatsheet for all dotfiles tools and commands

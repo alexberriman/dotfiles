@@ -58,7 +58,7 @@ alias ...='cd ../..'
 
 # ----- Custom Aliases
 alias letsbanj="sh $HOME/Documents/repos/banja-claude/run.sh"
-alias kclean='kubectl get pods -A --no-headers | gawk '\''$4=="Evicted" || $4=="Completed" || $4=="Error" || $4=="CrashLoopBackOff" || $4=="ContainerStatusUnknown" {print "kubectl delete pod -n " $1 " " $2}'\'' | sh'
+alias kclean='kubectl get pods -A --no-headers | gawk '\''$4=="Evicted" || $4=="Completed" || $4=="Error" || $4=="CrashLoopBackOff" || $4=="ContainerStatusUnknown" || $4=="Init:Error" || $4=="Init:CrashLoopBackOff" || $4=="ImagePullBackOff" || $4=="ErrImagePull" || $4=="CreateContainerError" || $4=="InvalidImageName" {print "kubectl delete pod -n " $1 " " $2}'\'' | sh'
 
 # ----- Kubernetes aliases
 alias k='kubectl'

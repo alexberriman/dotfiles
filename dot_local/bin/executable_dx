@@ -58,7 +58,7 @@ show_default() {
   item "kn -" "Switch to previous namespace"
   item "logs <pod>" "Tail pod logs (stern, partial names ok)"
   item "stern -n <ns> ." "Tail ALL logs in namespace"
-  item "kclean" "Delete failed/evicted pods"
+  item "kclean" "Delete failed pods (Evicted, Error, Init:Error, etc.)"
 
   section "Development"
   item "v <file>" "Neovim with LSP & formatting"
@@ -138,7 +138,7 @@ show_k8s() {
   item "stern <pod> --tail 50" "Show last 50 lines per container"
 
   section "Cleanup"
-  item "kclean" "Delete Evicted/Completed/Error pods (all namespaces)"
+  item "kclean" "Delete failed pods across all namespaces"
 
   echo -e "\n${CYAN}Tip: Drop .yaml files in ~/.kube/configs/ for auto-merge | k9s: press ? for help${RESET}\n"
 }
