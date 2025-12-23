@@ -4,3 +4,6 @@ disable_tools = ["node"]
 
 # Automatically trust config files in common project directories
 trusted_config_paths = ["~/Documents"]
+
+[tools]
+java = "temurin-21"

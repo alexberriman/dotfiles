@@ -2,9 +2,10 @@
 set -euo pipefail
 
 # Install Java with mise if mise is available
+# The version is declared in ~/.config/mise/config.toml
 if command -v mise >/dev/null 2>&1; then
   echo "Installing Java (Temurin 21) with mise..."
-  mise use --global java@temurin-21
+  mise install java@temurin-21
   echo "Java installed. Run 'source ~/.zshrc' or open a new terminal to use it."
 else
   echo "mise not found, skipping Java installation"
