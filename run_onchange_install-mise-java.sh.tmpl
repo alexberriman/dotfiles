@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Install Java with mise if mise is available
+if command -v mise >/dev/null 2>&1; then
+  echo "Installing Java (Temurin 21) with mise..."
+  mise use --global java@temurin-21
+  echo "Java installed successfully"
+  java -version
+else
+  echo "mise not found, skipping Java installation"
+  echo "Run 'brew bundle' first, then re-run 'chezmoi apply'"
+fi

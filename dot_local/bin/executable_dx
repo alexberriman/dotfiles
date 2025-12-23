@@ -64,6 +64,7 @@ show_default() {
   item "v <file>" "Neovim with LSP & formatting"
   item "nvm use <version>" "Switch Node version"
   item "echo '18' > .nvmrc" "Pin Node version (auto-switches)"
+  item "mise use java@temurin-21" "Install/switch Java version"
   item "direnv allow" "Enable .envrc in current dir"
   item "btop" "System monitor"
 
@@ -74,7 +75,7 @@ show_default() {
   item "Ctrl+a ," "Rename window"
   item "Ctrl+a d" "Detach session"
 
-  echo -e "\n${CYAN}Tip: ${BOLD}dx <category>${RESET}${CYAN} for detailed commands (git|k8s|shell|nvim|tools)${RESET}\n"
+  echo -e "\n${CYAN}Tip: ${BOLD}dx <category>${RESET}${CYAN} for detailed commands (git|k8s|shell|nvm|mise|nvim|tools)${RESET}\n"
 }
 
 show_git() {
@@ -283,6 +284,84 @@ show_tools() {
   echo -e "\n${CYAN}Tip: All configs managed by chezmoi | tmux prefix is Ctrl+a${RESET}\n"
 }
 
+show_nvm() {
+  header "Node.js Version Management (nvm)"
+
+  section "Installing Versions"
+  item "nvm install 20" "Install Node.js 20"
+  item "nvm install --lts" "Install latest LTS version"
+  item "nvm install node" "Install latest version"
+
+  section "Switching Versions"
+  item "nvm use 20" "Switch to Node.js 20"
+  item "nvm use --lts" "Switch to latest LTS"
+  item "nvm use default" "Switch to default version"
+
+  section "Listing & Info"
+  item "nvm ls" "List installed versions"
+  item "nvm ls-remote" "List all available versions"
+  item "nvm ls-remote --lts" "List LTS versions only"
+  item "nvm current" "Show current version"
+  item "nvm which 20" "Show path to Node 20"
+
+  section "Defaults & Aliases"
+  item "nvm alias default 20" "Set default to Node 20"
+  item "nvm alias default lts/*" "Set default to latest LTS"
+
+  section "Per-Project Versions"
+  item "echo '20' > .nvmrc" "Pin version for project"
+  item "echo 'lts/*' > .nvmrc" "Pin to latest LTS"
+  item "(auto)" "Auto-switches when you cd into directory"
+
+  section "Maintenance"
+  item "nvm cache clear" "Clear download cache"
+  item "nvm uninstall 18" "Remove Node.js 18"
+
+  echo -e "\n${CYAN}Tip: .nvmrc files auto-switch versions | Use 'mise' for Java${RESET}\n"
+}
+
+show_mise() {
+  header "Version Management (mise)"
+
+  section "Quick Commands"
+  item "mise ls" "List installed tool versions"
+  item "mise use java@temurin-21" "Install & set Java 21 for current project"
+  item "mise use -g java@temurin-17" "Install & set global Java 17"
+  item "mise install" "Install versions from mise.toml/.tool-versions"
+  item "mise current" "Show currently active versions"
+
+  section "Listing Available Versions"
+  item "mise ls-remote java" "List all available Java versions"
+  item "mise ls-remote java | grep temurin" "Filter to Temurin JDKs"
+  item "mise ls-remote java | grep corretto" "Filter to Amazon Corretto"
+
+  section "Java Distributions"
+  item "java@temurin-21" "Eclipse Temurin (recommended, LTS)"
+  item "java@temurin-17" "Eclipse Temurin 17 (LTS)"
+  item "java@corretto-21" "Amazon Corretto"
+  item "java@zulu-21" "Azul Zulu"
+  item "java@graalvm-21" "GraalVM"
+  item "java@openjdk-21" "OpenJDK (6-month support only)"
+
+  section "Project Configuration"
+  item "mise.toml" "Project config file (recommended)"
+  item ".tool-versions" "asdf-compatible format"
+  item "mise trust" "Trust current directory's config"
+
+  section "Example mise.toml"
+  echo -e "${DIM}  [tools]${RESET}"
+  echo -e "${DIM}  java = \"temurin-21\"${RESET}"
+
+  section "Useful Commands"
+  item "mise doctor" "Diagnose mise installation"
+  item "mise where java" "Show path to Java installation"
+  item "mise exec java@17 -- java -version" "Run with specific version"
+  item "mise prune" "Remove unused tool versions"
+  item "mise self-update" "Update mise itself"
+
+  echo -e "\n${CYAN}Tip: mise auto-switches versions when you cd into directories | Node uses nvm${RESET}\n"
+}
+
 show_all() {
   show_default
   echo ""
@@ -291,6 +370,10 @@ show_all() {
   show_k8s
   echo ""
   show_shell
+  echo ""
+  show_nvm
+  echo ""
+  show_mise
   echo ""
   show_nvim
   echo ""
@@ -314,6 +397,12 @@ case "${1:-}" in
   tools|misc)
     show_tools
     ;;
+  mise|java|versions)
+    show_mise
+    ;;
+  nvm|node)
+    show_nvm
+    ;;
   all)
     show_all | less -R
     ;;
@@ -327,6 +416,8 @@ case "${1:-}" in
     echo "  git      Git workflow and GitHub CLI"
     echo "  k8s      Kubernetes tools and shortcuts"
     echo "  shell    Shell enhancements and navigation"
+    echo "  nvm      Node.js version management (alias: node)"
+    echo "  mise     Java version management (alias: java)"
     echo "  nvim     Neovim IDE features and keybindings"
     echo "  tools    Additional utilities and dotfiles management"
     echo "  all      Show everything (piped to less)"

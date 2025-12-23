@@ -1,0 +1,6 @@
+[settings]
+# Don't let mise manage Node.js - we use nvm for that
+disable_tools = ["node"]
+
+# Automatically trust config files in common project directories
+trusted_config_paths = ["~/Documents"]

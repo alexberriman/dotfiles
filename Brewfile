@@ -2,6 +2,7 @@ tap "oven-sh/bun"
 
 # Core tools
 brew "git"
+brew "mise"
 brew "neovim"
 brew "fzf"
 brew "ripgrep"

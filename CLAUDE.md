@@ -19,6 +19,7 @@ This is a **chezmoi dotfiles repository** for managing personal development envi
 - `run_onchange_brew-bundle.sh.tmpl`: Installs/updates Homebrew packages from Brewfile
 - `run_onchange_install-nvm.sh.tmpl`: Installs nvm (Node Version Manager) to `~/.nvm`
 - `run_onchange_install-tpm.sh.tmpl`: Installs TPM (tmux plugin manager) to `~/.tmux/plugins/tpm`
+- `run_onchange_install-mise-java.sh.tmpl`: Installs Java (Temurin 21) via mise
 - `run_onchange_setup-kube-dirs.sh.tmpl`: Creates `~/.kube/configs/` directory for multi-config Kubernetes setup
 - `run_onchange_macos-defaults.sh`: Configures macOS system preferences (keyboard, screenshots)
 
@@ -26,6 +27,7 @@ This is a **chezmoi dotfiles repository** for managing personal development envi
 - **Shell**: `.zshrc` with Starship prompt, modern CLI tools (eza, bat, zoxide), zsh plugins (autosuggestions, syntax-highlighting), fzf keybindings with Catppuccin colors, and custom aliases
 - **Theme**: Catppuccin Mocha color scheme across all tools (terminal, neovim, tmux, fzf, bat)
 - **Node.js**: nvm with automatic version switching via `.nvmrc` files
+- **Java**: mise with Temurin JDK, supports per-project versions via `mise.toml`
 - **JavaScript Runtime**: bun with completions and PATH configuration
 - **Environment Management**: direnv for per-directory environment variables
 - **Containers**: OrbStack for Docker and Kubernetes management (lightweight Docker Desktop alternative)
@@ -128,6 +130,20 @@ Automatic Node.js version switching enabled:
 - **Default fallback**: When leaving directories with `.nvmrc`, reverts to default Node version
 - **Usage**: Create a `.nvmrc` file in project root with desired version (e.g., `18.20.0` or `lts/hydrogen`)
 
+### Java Version Management (mise)
+Java is managed via mise (a fast, Rust-based version manager):
+- **Installation**: mise installed via Homebrew, Java installed via `run_onchange_install-mise-java.sh.tmpl`
+- **Default version**: Temurin 21 (Eclipse's open-source JDK distribution)
+- **Auto-switching**: mise automatically switches Java versions when entering directories with `mise.toml` or `.tool-versions`
+- **Available distributions**: Temurin, Corretto (Amazon), Zulu (Azul), GraalVM, OpenJDK
+- **Configuration**: Global settings in `~/.config/mise/config.toml` (Node.js disabled, uses nvm instead)
+- **Commands**:
+  - `mise use java@temurin-21` - Install and use Java 21 in current project
+  - `mise use -g java@temurin-17` - Set global Java version
+  - `mise ls` - List installed versions
+  - `mise ls-remote java` - List available Java versions
+  - `dx mise` - Show all mise commands
+
 ### Bun Configuration
 - **Installation**: Installed via Homebrew from `oven-sh/bun` tap
 - **Completions**: Auto-loaded from `~/.bun/_bun` if available
@@ -172,6 +188,8 @@ Automatic Node.js version switching enabled:
   - `dx git` - Git workflow
   - `dx k8s` - Kubernetes tools
   - `dx shell` - Shell enhancements
+  - `dx nvm` - Node.js version management (alias: `dx node`)
+  - `dx mise` - Java version management (alias: `dx java`)
   - `dx nvim` - Neovim keybindings
   - `dx tools` - Utilities and dotfiles management
   - `dx all` - Complete reference
@@ -190,7 +208,7 @@ Automatic Node.js version switching enabled:
 - **JavaScript**: bun (via oven-sh/bun tap)
 - **Environment**: direnv
 - **Containers**: OrbStack (fast, lightweight Docker Desktop alternative)
-- **Version management**: asdf (optional, auto-loaded if present)
+- **Version management**: mise (Java, Python, etc. - fast Rust-based tool)
 
 **Shell Enhancements (Tier 1):**
 - **zsh-autosuggestions**: Fish-like command suggestions from history

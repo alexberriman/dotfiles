@@ -123,8 +123,7 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 # ----- Kubernetes
 export KUBECONFIG="$HOME/.kube/config:$(printf "%s:" $HOME/.kube/configs/*.yaml 2>/dev/null | sed 's/:$//')"
 
-# ----- asdf (optional)
-if [ -d "$HOME/.asdf" ]; then
-  . "$HOME/.asdf/asdf.sh"
-  . "$HOME/.asdf/completions/asdf.bash"
+# ----- mise (Java, Python, etc. - Node uses nvm)
+if command -v mise >/dev/null 2>&1; then
+  eval "$(mise activate zsh)"
 fi

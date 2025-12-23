@@ -73,12 +73,17 @@ return {
     event = "BufReadPre",
     dependencies = { "williamboman/mason-lspconfig.nvim" },
     config = function()
-      local lsp = require("lspconfig")
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-      lsp.lua_ls.setup({ capabilities = capabilities })
-      lsp.ts_ls.setup({ capabilities = capabilities })
-      lsp.eslint.setup({ capabilities = capabilities })
+      -- Global LSP config applied to all servers
+      vim.lsp.config('*', {
+        capabilities = capabilities,
+      })
+
+      -- Enable language servers (configs come from nvim-lspconfig's lsp/ directory)
+      vim.lsp.enable('lua_ls')
+      vim.lsp.enable('ts_ls')
+      vim.lsp.enable('eslint')
     end
   },
 
