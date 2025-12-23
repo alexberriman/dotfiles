@@ -2,8 +2,11 @@
 # Don't let mise manage Node.js - we use nvm for that
 disable_tools = ["node"]
 
-# Automatically trust config files in common project directories
-trusted_config_paths = ["~/Documents"]
+# Auto-install missing tool versions when entering directories
+auto_install = true
+
+# Show status message when tools are missing
+status = { missing_tools = "always", show_tools = true }
 
 [tools]
 java = "temurin-21"
