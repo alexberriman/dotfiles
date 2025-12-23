@@ -6,7 +6,8 @@ if command -v mise >/dev/null 2>&1; then
   echo "Installing Java (Temurin 21) with mise..."
   mise use --global java@temurin-21
   echo "Java installed successfully"
-  java -version
+  # Use mise exec since mise isn't activated in this shell context
+  mise exec -- java -version
 else
   echo "mise not found, skipping Java installation"
   echo "Run 'brew bundle' first, then re-run 'chezmoi apply'"
