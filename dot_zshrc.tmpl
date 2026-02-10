@@ -128,6 +128,11 @@ if command -v mise >/dev/null 2>&1; then
   eval "$(mise activate zsh)"
 fi
 
+# ----- Tailscale CLI
+if [ -d "/Applications/Tailscale.app" ]; then
+  export PATH="/Applications/Tailscale.app/Contents/MacOS:$PATH"
+fi
+
 # ----- Android SDK (React Native)
 if [ -d "$HOME/Library/Android/sdk" ]; then
   export ANDROID_HOME="$HOME/Library/Android/sdk"
