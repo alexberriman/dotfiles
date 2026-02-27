@@ -30,7 +30,7 @@ This is a **chezmoi dotfiles repository** for managing personal development envi
 - **Java**: mise with Temurin JDK, supports per-project versions via `mise.toml`
 - **JavaScript Runtime**: bun with completions and PATH configuration
 - **Environment Management**: direnv for per-directory environment variables
-- **Containers**: OrbStack for Docker and Kubernetes management (lightweight Docker Desktop alternative)
+- **Containers**: OrbStack for Docker and Kubernetes management (lightweight Docker Desktop alternative), `dclean` for interactive Docker disk cleanup
 - **Kubernetes**: OpenLens (GUI IDE), kubectl, kubectx, k9s (TUI), and stern (log tailing) with multi-config KUBECONFIG setup
 - **Git**: Conditional git identity, delta for diffs, lazygit TUI, global .gitignore, and useful aliases
 - **Editor**: Neovim with LSP (mason.nvim), completion (nvim-cmp), formatting (conform.nvim), git integration (gitsigns.nvim), diagnostics (trouble.nvim), keybinding help (which-key.nvim), auto-pairs (nvim-autopairs), and telescope with fzf-native
@@ -176,6 +176,12 @@ Java is managed via mise (a fast, Rust-based version manager):
 - `git visual`: Pretty graph of commits
 - `git amend`: Amend without editing message
 
+**Docker Aliases:**
+- `dclean`: Interactive Docker cleanup (shows disk usage, choose quick/full mode)
+- `dclean -f`: Force full cleanup without confirmation
+- `dps`: Compact running container list
+- `dlog`: Follow container logs
+
 **Kubernetes Aliases:**
 - `k`: kubectl shorthand
 - `kx`: kubectx (switch context)
@@ -192,6 +198,7 @@ Java is managed via mise (a fast, Rust-based version manager):
   - `dx nvm` - Node.js version management (alias: `dx node`)
   - `dx mise` - Java version management (alias: `dx java`)
   - `dx nvim` - Neovim keybindings
+  - `dx docker` - Docker & containers (alias: `dx containers`)
   - `dx tools` - Utilities and dotfiles management
   - `dx all` - Complete reference
 

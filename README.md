@@ -138,6 +138,7 @@ chezmoi update
 - **JavaScript Runtime**: bun for fast JavaScript execution
 - **Environment Management**: direnv for per-directory environment variables
 - **Containers**: OrbStack - fast, lightweight Docker Desktop alternative
+- **Docker Cleanup**: `dclean` command for interactive disk space reclamation
 
 ### Editor (Neovim)
 - **Theme**: Catppuccin Mocha with consistent colors across all integrations
@@ -275,6 +276,12 @@ dx all       # Everything (piped to less)
 - `kx` - Switch context (kubectx)
 - `kn` - Switch namespace (kubens)
 - `logs <pod>` - Tail logs from multiple pods (stern)
+
+### Docker
+- `dclean` - Interactive Docker cleanup (shows disk usage, choose quick or full)
+- `dclean -f` - Force full cleanup without confirmation
+- `dps` - List running containers (compact)
+- `dlog <container>` - Follow container logs
 
 ### Neovim
 - `<leader>ff` - Find files (telescope)

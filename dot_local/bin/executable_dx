@@ -69,6 +69,11 @@ show_default() {
   item "direnv allow" "Enable .envrc in current dir"
   item "btop" "System monitor"
 
+  section "Docker"
+  item "dclean" "Interactive Docker cleanup (reclaim disk space)"
+  item "dps" "List running containers (compact)"
+  item "dlog <container>" "Follow container logs"
+
   section "tmux"
   item "Ctrl+h/j/k/l" "Navigate panes (no prefix)"
   item "Ctrl+a c" "New window"
@@ -364,12 +369,48 @@ show_mise() {
   echo -e "\n${CYAN}Tip: mise auto-switches versions when you cd into directories | Node uses nvm${RESET}\n"
 }
 
+show_docker() {
+  header "Docker & Containers (OrbStack)"
+
+  section "Cleanup"
+  item "dclean" "Interactive cleanup (shows usage, choose quick/full)"
+  item "dclean -f" "Force full cleanup (no confirmation, scripting)"
+  item "docker system df" "Show Docker disk usage breakdown"
+
+  section "Containers"
+  item "dps" "List running containers (compact table)"
+  item "dlog <container>" "Follow container logs"
+  item "docker ps -a" "List all containers (including stopped)"
+  item "docker exec -it <ctr> sh" "Shell into running container"
+  item "docker stop \$(docker ps -q)" "Stop all running containers"
+
+  section "Images"
+  item "docker images" "List all images"
+  item "docker rmi <image>" "Remove an image"
+  item "docker pull <image>" "Pull/update an image"
+
+  section "Volumes"
+  item "docker volume ls" "List all volumes"
+  item "docker volume rm <vol>" "Remove a volume"
+  item "docker volume prune" "Remove unused volumes"
+
+  section "Compose"
+  item "docker compose up -d" "Start services in background"
+  item "docker compose down" "Stop and remove services"
+  item "docker compose logs -f" "Follow all service logs"
+  item "docker compose ps" "List compose services"
+
+  echo -e "\n${CYAN}Tip: OrbStack is a fast Docker Desktop alternative | 'dclean' reclaims disk space${RESET}\n"
+}
+
 show_all() {
   show_default
   echo ""
   show_git
   echo ""
   show_k8s
+  echo ""
+  show_docker
   echo ""
   show_shell
   echo ""
@@ -396,6 +437,9 @@ case "${1:-}" in
   nvim|vim|editor)
     show_nvim
     ;;
+  docker|containers)
+    show_docker
+    ;;
   tools|misc)
     show_tools
     ;;
@@ -417,6 +461,7 @@ case "${1:-}" in
     echo "  (none)   Show top commands (default)"
     echo "  git      Git workflow and GitHub CLI"
     echo "  k8s      Kubernetes tools and shortcuts"
+    echo "  docker   Docker & containers (alias: containers)"
     echo "  shell    Shell enhancements and navigation"
     echo "  nvm      Node.js version management (alias: node)"
     echo "  mise     Java version management (alias: java)"

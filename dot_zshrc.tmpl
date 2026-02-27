@@ -70,6 +70,10 @@ alias kx='kubectx'
 alias kn='kubens'
 alias logs='stern'
 
+# ----- Docker aliases
+alias dps='docker ps --format "table {{`{{.Names}}`}}\t{{`{{.Status}}`}}\t{{`{{.Ports}}`}}"'
+alias dlog='docker logs -f'
+
 # ----- Editor
 export EDITOR="nvim"
 export VISUAL="nvim"

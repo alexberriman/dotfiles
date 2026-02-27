@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+# dclean - Docker cleanup helper
+# Interactively reclaim disk space from unused Docker resources
+
+set -euo pipefail
+
+# Colors
+BOLD='\033[1m'
+DIM='\033[2m'
+RESET='\033[0m'
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+
+# Check docker is available
+if ! command -v docker >/dev/null 2>&1; then
+  echo -e "${RED}Error: docker not found. Is OrbStack/Docker running?${RESET}"
+  exit 1
+fi
+
+# Check docker daemon is running
+if ! docker info >/dev/null 2>&1; then
+  echo -e "${RED}Error: Docker daemon is not running. Start OrbStack first.${RESET}"
+  exit 1
+fi
+
+run_quick() {
+  echo -e "\n${YELLOW}Running quick cleanup...${RESET}"
+  docker system prune -f
+  echo -e "\n${GREEN}Quick cleanup complete.${RESET}"
+}
+
+run_full() {
+  echo -e "\n${RED}Running full cleanup (all unused images, volumes, networks)...${RESET}"
+  docker system prune -a --volumes -f
+  echo -e "\n${GREEN}Full cleanup complete.${RESET}"
+}
+
+show_usage() {
+  echo -e "\n${BOLD}${BLUE}Docker Disk Usage${RESET}\n"
+  docker system df
+}
+
+# Handle --force flag
+if [[ "${1:-}" == "-f" || "${1:-}" == "--force" ]]; then
+  show_usage
+  run_full
+  echo ""
+  show_usage
+  exit 0
+fi
+
+# Interactive mode
+show_usage
+
+echo -e "\n${BOLD}Choose cleanup mode:${RESET}"
+echo -e "  ${GREEN}1)${RESET} Quick  ${DIM}— dangling images, stopped containers, unused networks${RESET}"
+echo -e "  ${RED}2)${RESET} Full   ${DIM}— ALL unused images, containers, networks, and volumes${RESET}"
+echo -e "  ${DIM}q) Cancel${RESET}"
+echo ""
+
+read -rp "$(echo -e "${CYAN}>${RESET} ")" choice
+
+case "$choice" in
+  1)
+    run_quick
+    echo ""
+    show_usage
+    ;;
+  2)
+    run_full
+    echo ""
+    show_usage
+    ;;
+  q|Q|"")
+    echo -e "${DIM}Cancelled.${RESET}"
+    ;;
+  *)
+    echo -e "${RED}Invalid choice.${RESET}"
+    exit 1
+    ;;
+esac
