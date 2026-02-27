@@ -124,6 +124,7 @@ chezmoi update
 - **zsh** with **Starship** prompt (modern, fast, Rust-based)
 - **Catppuccin Mocha** theme across all tools (terminal, editor, tmux)
 - **Shell enhancements**:
+  - `compinit` - Enhanced zsh tab completion for kubectl, git, brew, etc.
   - `zsh-autosuggestions` - Fish-like command suggestions from history
   - `zsh-syntax-highlighting` - Real-time command validation
   - `zoxide` - Smart cd that learns your frequent directories (use `z` instead of `cd`)
@@ -132,7 +133,8 @@ chezmoi update
 - **fzf** - Fuzzy finder with Catppuccin colors
 
 ### Development Tools
-- **Node.js**: nvm with automatic version switching via `.nvmrc`
+- **Node.js**: nvm with automatic version switching via `.nvmrc` (lazy-loaded for fast shell startup)
+- **Java**: mise with Temurin JDK and Starship prompt integration
 - **JavaScript Runtime**: bun for fast JavaScript execution
 - **Environment Management**: direnv for per-directory environment variables
 - **Containers**: OrbStack - fast, lightweight Docker Desktop alternative
@@ -144,17 +146,19 @@ chezmoi update
 - **Completion**: nvim-cmp with LSP, buffer, path, and snippet sources
 - **Formatting**: conform.nvim with auto-format on save (prettier, stylua)
 - **Git Integration**: gitsigns.nvim for inline git blame and hunks
-- **File Navigation**: telescope.nvim and nvim-tree
+- **File Navigation**: telescope.nvim (with fzf-native for fast sorting) and nvim-tree
 - **Syntax**: treesitter for better highlighting
 - **Diagnostics**: trouble.nvim for better error lists
+- **Keybinding Help**: which-key.nvim for keybinding discoverability popup
+- **Auto-pairs**: nvim-autopairs for auto-closing brackets and quotes
 
 ### Terminal & Multiplexer
-- **tmux** with Catppuccin theme, vi mode, and vim-style pane navigation (Ctrl+hjkl)
+- **tmux** with Catppuccin theme, vi mode, vim-style pane navigation (Ctrl+hjkl), and 256color/RGB support
 - **iTerm2** with Catppuccin Mocha color scheme (auto-configured via Dynamic Profiles)
 
 ### Git Workflow
 - **Conditional identity switching** (default vs. banja repos)
-- **delta** - Beautiful syntax-highlighted diffs
+- **delta** - Beautiful syntax-highlighted diffs (Catppuccin Mocha theme)
 - **lazygit** - Terminal UI for git operations
 - **gh** - GitHub CLI for PR and issue management
 - **Global .gitignore** - Common patterns (node_modules, .DS_Store, etc.)

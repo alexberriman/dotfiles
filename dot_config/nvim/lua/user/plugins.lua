@@ -18,6 +18,7 @@ return {
           telescope = true,
           trouble = true,
           mason = true,
+          which_key = true,
         },
       })
       vim.cmd.colorscheme("catppuccin")
@@ -34,8 +35,12 @@ return {
   },
 
   { "nvim-telescope/telescope.nvim", cmd = "Telescope",
-    dependencies = { "nvim-lua/plenary.nvim" },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+    },
     config = function()
+      require("telescope").load_extension("fzf")
       local b = require("telescope.builtin")
       vim.keymap.set("n", "<leader>ff", b.find_files, { desc = "Find files" })
       vim.keymap.set("n", "<leader>fg", b.live_grep,  { desc = "Live grep" })
@@ -178,6 +183,24 @@ return {
           theme = "catppuccin"
         }
       })
+    end
+  },
+
+  -- Keybinding discoverability
+  { "folke/which-key.nvim", event = "VeryLazy",
+    config = function()
+      require("which-key").setup()
+    end
+  },
+
+  -- Auto-close brackets and quotes
+  { "windwp/nvim-autopairs", event = "InsertEnter",
+    config = function()
+      local autopairs = require("nvim-autopairs")
+      autopairs.setup()
+      -- Integrate with nvim-cmp
+      local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+      require("cmp").event:on("confirm_done", cmp_autopairs.on_confirm_done())
     end
   },
 }

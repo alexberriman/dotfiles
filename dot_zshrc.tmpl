@@ -1,12 +1,16 @@
 # ----- Homebrew (macOS)
 {{ if eq .os "darwin" -}}
 eval "$(/opt/homebrew/bin/brew shellenv)"
+BREW_PREFIX="$(/opt/homebrew/bin/brew --prefix)"
 {{- end }}
 
 # ----- PATH
 export PATH="$HOME/.local/bin:$PATH"
 
 # Pro tip: Run 'dx' for a cheatsheet of all your tools!
+
+# ----- Completions
+autoload -Uz compinit && compinit
 
 # ----- History
 HISTFILE="$HOME/.zsh_history"
@@ -15,8 +19,8 @@ SAVEHIST=10000
 setopt INC_APPEND_HISTORY SHARE_HISTORY HIST_IGNORE_DUPS
 
 # ----- fzf keybindings and colors (if installed)
-if command -v brew >/dev/null 2>&1; then
-  FZF_BIND="$(brew --prefix)/opt/fzf/shell/key-bindings.zsh"
+if [[ -n "$BREW_PREFIX" ]]; then
+  FZF_BIND="$BREW_PREFIX/opt/fzf/shell/key-bindings.zsh"
   [ -f "$FZF_BIND" ] && source "$FZF_BIND"
 
   # Catppuccin Mocha colors for fzf
@@ -70,17 +74,32 @@ alias logs='stern'
 export EDITOR="nvim"
 export VISUAL="nvim"
 
-# ----- nvm
+# ----- nvm (lazy-loaded for faster shell startup)
 export NVM_DIR="$([[ -z "${XDG_CONFIG_HOME-}" ]] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+_load_nvm() {
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+}
+
+# Stub commands that trigger nvm loading on first use
+for cmd in nvm node npm npx; do
+  eval "${cmd}() { unfunction nvm node npm npx 2>/dev/null; _load_nvm; ${cmd} \"\$@\" }"
+done
 
 # Auto-switch Node version based on .nvmrc
 autoload -U add-zsh-hook
 load-nvmrc() {
-  local node_version="$(nvm version)"
-  local nvmrc_path="$(nvm_find_nvmrc)"
+  local nvmrc_path
+  nvmrc_path="$(nvm_find_nvmrc 2>/dev/null)"
 
   if [ -n "$nvmrc_path" ]; then
+    # nvm is needed — ensure it's loaded
+    if ! command -v nvm >/dev/null 2>&1 || ! typeset -f nvm >/dev/null 2>&1; then
+      unfunction nvm node npm npx 2>/dev/null
+      _load_nvm
+    fi
+
+    local node_version="$(nvm version)"
     local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
 
     if [ "$nvmrc_node_version" = "N/A" ]; then
@@ -88,9 +107,6 @@ load-nvmrc() {
     elif [ "$nvmrc_node_version" != "$node_version" ]; then
       nvm use
     fi
-  elif [ "$node_version" != "$(nvm version default)" ]; then
-    echo "Reverting to nvm default version"
-    nvm use default
   fi
 }
 add-zsh-hook chpwd load-nvmrc
@@ -106,13 +122,13 @@ if command -v zoxide >/dev/null 2>&1; then
 fi
 
 # ----- zsh-autosuggestions
-if [ -f "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
-  source "$(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+if [[ -n "$BREW_PREFIX" ]] && [ -f "$BREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
+  source "$BREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 fi
 
 # ----- zsh-syntax-highlighting (must be last)
-if [ -f "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; then
-  source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+if [[ -n "$BREW_PREFIX" ]] && [ -f "$BREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]; then
+  source "$BREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 fi
 
 # ----- bun

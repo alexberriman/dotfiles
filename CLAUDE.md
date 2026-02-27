@@ -24,17 +24,17 @@ This is a **chezmoi dotfiles repository** for managing personal development envi
 - `run_onchange_macos-defaults.sh`: Configures macOS system preferences (keyboard, screenshots)
 
 ### Configuration Structure
-- **Shell**: `.zshrc` with Starship prompt, modern CLI tools (eza, bat, zoxide), zsh plugins (autosuggestions, syntax-highlighting), fzf keybindings with Catppuccin colors, and custom aliases
+- **Shell**: `.zshrc` with Starship prompt, modern CLI tools (eza, bat, zoxide), zsh plugins (autosuggestions, syntax-highlighting), compinit for tab completion, fzf keybindings with Catppuccin colors, cached `brew --prefix` for performance, and custom aliases
 - **Theme**: Catppuccin Mocha color scheme across all tools (terminal, neovim, tmux, fzf, bat)
-- **Node.js**: nvm with automatic version switching via `.nvmrc` files
+- **Node.js**: nvm (lazy-loaded) with automatic version switching via `.nvmrc` files
 - **Java**: mise with Temurin JDK, supports per-project versions via `mise.toml`
 - **JavaScript Runtime**: bun with completions and PATH configuration
 - **Environment Management**: direnv for per-directory environment variables
 - **Containers**: OrbStack for Docker and Kubernetes management (lightweight Docker Desktop alternative)
 - **Kubernetes**: kubectl, kubectx, k9s (TUI), and stern (log tailing) with multi-config KUBECONFIG setup
 - **Git**: Conditional git identity, delta for diffs, lazygit TUI, global .gitignore, and useful aliases
-- **Editor**: Neovim with LSP (mason.nvim), completion (nvim-cmp), formatting (conform.nvim), git integration (gitsigns.nvim), and diagnostics (trouble.nvim)
-- **Terminal**: tmux configuration with vi mode and vim-style pane navigation (Ctrl+hjkl)
+- **Editor**: Neovim with LSP (mason.nvim), completion (nvim-cmp), formatting (conform.nvim), git integration (gitsigns.nvim), diagnostics (trouble.nvim), keybinding help (which-key.nvim), auto-pairs (nvim-autopairs), and telescope with fzf-native
+- **Terminal**: tmux configuration with vi mode, vim-style pane navigation (Ctrl+hjkl), and 256color/RGB support
 
 ## Key Chezmoi Commands
 
@@ -88,7 +88,7 @@ A cohesive **Catppuccin Mocha** theme is applied across the entire development e
 
 **Starship Prompt:**
 - **What**: Modern, fast (Rust-based) shell prompt replacing Powerlevel10k
-- **Features**: Clean, minimal design showing directory, git status, command duration, and time
+- **Features**: Clean, minimal design showing directory, git status, command duration, time, and Java version
 - **Config**: `~/.config/starship.toml`
 - **Colors**: Integrated with Catppuccin Mocha palette
 
@@ -110,6 +110,7 @@ A cohesive **Catppuccin Mocha** theme is applied across the entire development e
 **CLI Tools:**
 - **fzf**: Catppuccin Mocha colors for fuzzy finder UI
 - **bat**: TwoDark theme (closest to Catppuccin for syntax highlighting)
+- **delta**: Catppuccin Mocha syntax theme for git diffs
 
 **Post-Installation Steps:**
 1. Run `chezmoi apply` to install Starship and apply configs
@@ -123,11 +124,11 @@ The gitconfig uses conditional includes to switch identity based on directory:
 - Banja identity: `alex@banja.au` (activated for repos under `~/Documents/banja/repos/`)
 
 ### Node.js Version Management (nvm)
-Automatic Node.js version switching enabled:
+Automatic Node.js version switching enabled (lazy-loaded for fast shell startup):
 - **Installation**: nvm installed to `~/.nvm` via `run_onchange_install-nvm.sh.tmpl`
-- **Automatic switching**: When entering a directory with a `.nvmrc` file, the specified Node version is automatically loaded
+- **Lazy loading**: nvm, node, npm, and npx are stub functions that load nvm on first use, avoiding ~200ms shell startup penalty
+- **Automatic switching**: When entering a directory with a `.nvmrc` file, nvm is loaded and the specified Node version is automatically used
 - **Auto-install**: If the required version isn't installed, nvm automatically installs it
-- **Default fallback**: When leaving directories with `.nvmrc`, reverts to default Node version
 - **Usage**: Create a `.nvmrc` file in project root with desired version (e.g., `18.20.0` or `lts/hydrogen`)
 
 ### Java Version Management (mise)
@@ -256,6 +257,9 @@ Java is managed via mise (a fast, Rust-based version manager):
 - **Diagnostics**: trouble.nvim for better error/warning lists
   - `<leader>xx`: Toggle diagnostics
   - `<leader>xw`: Buffer diagnostics
+- **Keybinding Help**: which-key.nvim shows available keybindings in a popup after pressing leader
+- **Auto-pairs**: nvim-autopairs auto-closes brackets and quotes with cmp integration
+- **Telescope**: Uses fzf-native extension for significantly faster fuzzy sorting
 - **Keybindings**:
   - `<leader>ff`: Find files (telescope)
   - `<leader>fg`: Live grep (telescope)
@@ -268,7 +272,7 @@ Java is managed via mise (a fast, Rust-based version manager):
 - **Pager**: delta for beautiful diffs
   - Side-by-side view enabled
   - Line numbers shown
-  - Syntax highlighting with Dracula theme
+  - Syntax highlighting with Catppuccin Mocha theme
 - **Global .gitignore**: Located at `~/.gitignore_global`
   - Ignores: .DS_Store, node_modules/, .env files, editor files, build outputs
 - **Merge Conflict Style**: zdiff3 (shows common ancestor)

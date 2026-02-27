@@ -109,6 +109,13 @@ format = '[$symbol$context( \($namespace\))]($style) '
 symbol = "☸ "
 style = "fg:#89b4fa"
 
+# Java version (useful with mise)
+[java]
+symbol = ""
+style = "fg:#f9e2af"
+format = '[$symbol ($version )]($style)'
+disabled = false
+
 # Disable modules you don't need
 [aws]
 disabled = true
