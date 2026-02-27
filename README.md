@@ -165,6 +165,7 @@ chezmoi update
 - **Useful aliases**: `st`, `co`, `br`, `unstage`, `undo`, `visual`, `amend`
 
 ### Kubernetes Tools
+- **OpenLens** - Kubernetes IDE (GUI) for visual cluster management
 - **kubectl** - Kubernetes CLI
 - **kubectx** - Fast context switching
 - **k9s** - Terminal UI for Kubernetes cluster management

@@ -50,6 +50,7 @@ show_default() {
   item "gh pr list" "List pull requests"
 
   section "Kubernetes"
+  item "openlens" "Kubernetes IDE (GUI)"
   item "k9s" "Kubernetes TUI (press ? for help)"
   item "k get pods" "List pods (k = kubectl)"
   item "kx / kx <ctx>" "Switch context (kubectx)"
@@ -110,7 +111,8 @@ show_git() {
 show_k8s() {
   header "Kubernetes Tools"
 
-  section "Kubernetes TUI"
+  section "Kubernetes GUI & TUI"
+  item "openlens" "Kubernetes IDE (GUI) - visual cluster management"
   item "k9s" "Interactive cluster management (? for help, 0=pods, 1=deployments)"
 
   section "kubectl Shortcuts"

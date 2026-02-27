@@ -31,7 +31,7 @@ This is a **chezmoi dotfiles repository** for managing personal development envi
 - **JavaScript Runtime**: bun with completions and PATH configuration
 - **Environment Management**: direnv for per-directory environment variables
 - **Containers**: OrbStack for Docker and Kubernetes management (lightweight Docker Desktop alternative)
-- **Kubernetes**: kubectl, kubectx, k9s (TUI), and stern (log tailing) with multi-config KUBECONFIG setup
+- **Kubernetes**: OpenLens (GUI IDE), kubectl, kubectx, k9s (TUI), and stern (log tailing) with multi-config KUBECONFIG setup
 - **Git**: Conditional git identity, delta for diffs, lazygit TUI, global .gitignore, and useful aliases
 - **Editor**: Neovim with LSP (mason.nvim), completion (nvim-cmp), formatting (conform.nvim), git integration (gitsigns.nvim), diagnostics (trouble.nvim), keybinding help (which-key.nvim), auto-pairs (nvim-autopairs), and telescope with fzf-native
 - **Terminal**: tmux configuration with vi mode, vim-style pane navigation (Ctrl+hjkl), and 256color/RGB support
@@ -151,7 +151,7 @@ Java is managed via mise (a fast, Rust-based version manager):
 - **PATH**: `$HOME/.bun/bin` added to PATH
 
 ### Kubernetes Configuration
-- **Tools**: kubectl and kubectx installed via Homebrew
+- **Tools**: OpenLens (GUI), kubectl, and kubectx installed via Homebrew
 - **Multi-config setup**: KUBECONFIG automatically combines `~/.kube/config` with all YAML files in `~/.kube/configs/`
 - **Directory creation**: `~/.kube/configs/` automatically created via `run_onchange_setup-kube-dirs.sh.tmpl`
 - **Usage**: Place additional kubeconfig YAML files in `~/.kube/configs/` to automatically merge them
@@ -229,6 +229,7 @@ Java is managed via mise (a fast, Rust-based version manager):
 - **stylua**: Lua code formatter for neovim config files
 
 **Kubernetes & Observability (Tier 3):**
+- **OpenLens**: Kubernetes IDE (GUI) for visual cluster management
 - **kubectl**: Kubernetes CLI
 - **kubectx**: Fast context and namespace switching
 - **k9s**: Terminal UI for managing Kubernetes clusters
